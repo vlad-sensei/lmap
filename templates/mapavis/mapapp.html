@@ -50,20 +50,13 @@ function createPolyline(map, path) {
 }
 
 function displayRoads(map) {
-
   {% for road in ROADS %}
     var points = new google.maps.MVCArray();
   {% for coord in road.coords %}
     points.push(new google.maps.LatLng({{coord.lat}}, {{coord.lng}}));
   {% endfor %}
   createPolyline(map, points);
-
   {% endfor %}
-  var points = new google.maps.MVCArray();
-  points.push(new google.maps.LatLng(58.3970323, 15.5738155));
-  points.push(new google.maps.LatLng(58.3976588, 15.5738047));
-  // createMarker(map, new google.maps.LatLng(58.3985405,15.5747798),""+470353134);
-  createPolyline(map, points);
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
