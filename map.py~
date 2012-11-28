@@ -1,0 +1,106 @@
+#./bin/env/python
+
+from imposm.parser import OSMParser
+mp='map.osm'
+
+class Node:
+  def __init__(self, id, lng, lat):
+    self.id = id
+    self.lng = lng
+    self.lat = lat
+
+class StoreNodes(object):
+  def __init__(self, osmfile):
+    self.nodes = dict()
+    self.bounds = dict()
+    self.bounds["min_lat"] =-9999 # 58.3773000
+    self.bounds["max_lat"] = 9999 # 58.4236000
+    self.bounds["min_lng"] =-9999 # 15.5207000
+    self.bounds["max_lng"] = 9999 # 15.6248000
+
+    p=OSMParser(coords_callback = self.coords_callback)
+    p.parse(osmfile)
+
+  def coords_callback(self, coords):
+    for osmid, lng, lat in coords:
+      node = Node(osmid, lng, lat)
+      self.nodes[osmid]= node
+      self.bounds["min_lat"] = min(self.bounds["min_lat"], lat)
+      self.bounds["max_lat"] = max(self.bounds["max_lat"], lat)
+      self.bounds["min_lng"] = min(self.bounds["min_lng"], lng)
+      self.bounds["max_lng"] = max(self.bounds["max_lng"], lng)
+
+N=StoreNodes(mp)
+# print Nodes
+# for node in N.nodes.values(): print node.id
+
+
+class ClipNodes(object):
+  def __init__(self, nodes, minlat, maxlat, minlng, maxlng):
+    self.nodes = dict()
+    self.bounds = dict()
+    self.minlat=minlat
+    self.maxlat=maxlat
+    self.minlng=minlng
+    self.maxlng=maxlng
+
+    self.bounds["min_lat"] =-9999 # 58.3773000
+    self.bounds["max_lat"] = 9999 # 58.4236000
+    self.bounds["min_lng"] =-9999 # 15.5207000
+    self.bounds["max_lng"] = 9999 # 15.6248000
+
+    for node in nodes.values():
+      if self.minlng < node.lng and self.minlat < node.lat and self.maxlng > node.lng and self.maxlat > node.lat:
+        new_node = Node(node.id, node.lng, node.lat)
+        self.nodes[node.id]= new_node
+        self.bounds["min_lat"] = min(self.bounds["min_lat"], node.lat)
+        self.bounds["max_lat"] = max(self.bounds["max_lat"], node.lat)
+        self.bounds["min_lng"] = min(self.bounds["min_lng"], node.lng)
+        self.bounds["max_lng"] = max(self.bounds["max_lng"], node.lng)
+
+CN=ClipNodes(N.nodes,58.3984,58.3990 ,15.5733 ,15.576)
+# print Nodes
+#for node in CN.nodes.values(): print node.id
+
+import random
+import unittest
+from nodes import *
+
+def node_inside ( node , min_lat , max_lat , min_lng , max_lng ):
+  return ( min_lat <= node.lat and node.lat <= max_lat and min_lng <= node.lng and node.lng <= max_lng )
+
+class TestClipNodes(unittest.TestCase):
+  def test_empty_nodes ( self ):
+    nodes = dict ()
+    selected_nodes = ClipNodes ( nodes ,-10 , 10 ,-10 , 10 )
+    self.assertEqual ( nodes , selected_nodes.nodes )
+
+  def test_empty_clip_nodes ( self ):
+    nodes = dict ()
+    nodes [ 1 ] = Node (1 ,-10 ,-10 )
+    nodes [ 2 ] = Node (2 ,-5 ,-5 )
+    selected_nodes = ClipNodes ( nodes , 0 , 10 , 0 , 10 )
+    self.assertFalse ( selected_nodes.nodes )
+
+  def test_random ( self ):
+    nodes = dict ()
+    for i in range ( 100 ):
+      node = Node (i , random.randint (-180 , 180 ) , random.randint (-90 , 90 ) )
+      nodes [ i ] = node
+
+    min_lat = random.randint (-90 , 90 )
+    min_lng = random.randint (-180 , 180 )
+    max_lat = min_lat + random.randint (0 , 90-min_lat )
+    max_lng = min_lng + random.randint (0 , 180-min_lng )
+
+    selected_nodes = ClipNodes ( nodes , min_lat , max_lat , min_lng , max_lng )
+    for n in nodes.values ():
+      if n in selected_nodes.nodes.values ():
+        self.assertTrue ( node_inside (n , min_lat , max_lat , min_lng , max_lng ) )
+      else:
+        self.assertFalse ( node_inside (n , min_lat , max_lat , min_lng , max_lng ) )
+
+if __name__== "__main__":
+  unittest.main ()
+
+
