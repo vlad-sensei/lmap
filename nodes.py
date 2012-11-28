@@ -72,14 +72,8 @@ class Road:
     self.coords = []
     self.id=id
     self.nodes=nodes
-   # print id
-   # print len(self.nodes)
     for node in self.nodes:
       self.coords+= [{'lat': N.nodes[node].lat, 'lng': N.nodes[node].lng}]
-   # print len(self.coords)
-
-    #selt
-
 
 class StoreRoads :
   def __init__ ( self , osmfile) :
@@ -95,4 +89,6 @@ R=StoreRoads(mp)
 #for road in R.roads.values():
 #  print road.id
 #  for coords in road.coords: print coords
+
+
 
