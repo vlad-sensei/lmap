@@ -67,12 +67,22 @@ CN=ClipNodes(N.nodes,58.3984,58.3990 ,15.5733 ,15.576)
 #for node in CN.nodes.values(): print node.id
 
 class Road:
+  global N
   def __init__(self, id, nodes):
+    self.coords = []
     self.id=id
     self.nodes=nodes
+   # print id
+   # print len(self.nodes)
+    for node in self.nodes:
+      self.coords+= [{'lat': N.nodes[node].lat, 'lng': N.nodes[node].lng}]
+   # print len(self.coords)
+
+    #selt
+
 
 class StoreRoads :
-  def __init__ ( self , osmfile ) :
+  def __init__ ( self , osmfile) :
     self.roads = dict ()
     p = OSMParser(ways_callback = self.ways_callback)
     p.parse(osmfile)
@@ -82,5 +92,7 @@ class StoreRoads :
       self.roads[osmid] = road
 
 R=StoreRoads(mp)
-
+#for road in R.roads.values():
+#  print road.id
+#  for coords in road.coords: print coords
 
