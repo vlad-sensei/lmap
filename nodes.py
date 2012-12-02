@@ -90,5 +90,15 @@ R=StoreRoads(mp)
 #  print road.id
 #  for coords in road.coords: print coords
 
+from math import sqrt, radians, sin, cos, asin
 
+def length_haversine(p1,p2):
+  lat1, lat2, lng1, lng2 = map(radians, [p1.lat, p2.lat, p1.lng, p2.lng])
+  dlat, dlng = lat2-lat1, lng2-lng1
+  a=sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlng/2)**2
+  return 6372797.560856 * 2*asin(sqrt(a))
 
+def GetG(r):
+  g={}
+  for road in r.roads:
+    # for each road...
