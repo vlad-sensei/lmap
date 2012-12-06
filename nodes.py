@@ -113,3 +113,9 @@ def GetG(r):
 G=GetG(R)
 
 #print G
+
+from algoritm import *
+
+P, dist =shortestPath(G,345660400,283653684)
+print dist
+print P
