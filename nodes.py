@@ -100,6 +100,16 @@ def length_haversine(p1,p2):
 
 def GetG(r):
   g={}
-  for road in r.roads:
-    pass
-  # for each road...
+  for road in r.roads.values():
+    for i in range(len(road.nodes)-1):
+      id1,id2=road.nodes[i],road.nodes[i+1]
+      l=length_haversine(N.nodes[id1], N.nodes[id2])
+      if not id1 in g: g[id1]=[]
+      if not id2 in g: g[id2]=[]
+      g[id1]+=[(id2,l)]
+      g[id2]+=[(id1,l)]
+  return g
+
+G=GetG(R)
+
+#print G

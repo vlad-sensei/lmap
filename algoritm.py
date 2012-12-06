@@ -11,11 +11,11 @@ def Dijkstra(G,start, end=None):
   for v in Q:
     D[v]=Q[v]
     if v==end : break
-    for w,e in G[v]:
-      newlen = D[v] + e
-      if not w in Q or newlen < Q[w]:
-        Q[w]=newlen
-        P[w]=v
+    for l in G[v]:
+      newlen = D[v] + l[1]
+      if not l[0] in Q or newlen < Q[l[0]]:
+        Q[l[0]]=newlen
+        P[l[0]]=v
  # print D[end]
   #print P
   return(D, P)
@@ -30,6 +30,6 @@ def shortestPath(G,start,end):
   Path.reverse()
   return Path
 
-#G = [[(1,10), (2,30)],          [(0,10), (2,10)],          [(0,30), (1,10)]]
-#P = shortestPath(G,0,2)
+#G = {123:[(321,10), (111,30)],          321:[(123,10), (111,10)],         111:[(123,30), (321,10)]}
+#P = shortestPath(G,123,111)
 #print P
