@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 
 from imposm.parser import OSMParser
 
@@ -101,4 +101,5 @@ def length_haversine(p1,p2):
 def GetG(r):
   g={}
   for road in r.roads:
-    # for each road...
+    pass
+  # for each road...

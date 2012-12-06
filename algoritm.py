@@ -16,7 +16,7 @@ def Dijkstra(G,start, end=None):
       if not w in Q or newlen < Q[w]:
         Q[w]=newlen
         P[w]=v
-  #print D[end]
+ # print D[end]
   #print P
   return(D, P)
 
@@ -30,6 +30,6 @@ def shortestPath(G,start,end):
   Path.reverse()
   return Path
 
-#G = [[(1,10), (2,30)], [(0,10), (2,10)], [(0,30), (1,10)]]
+#G = [[(1,10), (2,30)],          [(0,10), (2,10)],          [(0,30), (1,10)]]
 #P = shortestPath(G,0,2)
 #print P
