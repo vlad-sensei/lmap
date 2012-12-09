@@ -25,7 +25,7 @@ function initialize() {
     createMarker(event.latLng);
   });
   //displayMarkers(map);
-  displayRoads(map);
+  //displayRoads(map);
 }
 
 function createMarker(map, location, title) {
@@ -35,13 +35,6 @@ function createMarker(map, location, title) {
     title: title
   });
 }
-
-function displayMarkers(map) {
-  {% for coord in COORDS %}
-    createMarker(map, new google.maps.LatLng({{coord.lat}},{{coord.lng}}),"" + {{coord.id}});
-  {% endfor %}
-}
-
 function createPolyline(map, path) {
   var polyline = new google.maps.Polyline({
     path: path,
@@ -49,28 +42,28 @@ function createPolyline(map, path) {
   });
 }
 
-function displayRoads(map) {
-  {% for road in ROADS %}
-    var points = new google.maps.MVCArray();
-  {% for coord in road.coords %}
-    points.push(new google.maps.LatLng({{coord.lat}}, {{coord.lng}}));
-  {% endfor %}
-  createPolyline(map, points);
-  {% endfor %}
-}
-
 google.maps.event.addDomListener(window, 'load', initialize);
+
 </script>
 </head>
 <body onload="initialize()">
 <div id="map_canvas" style="width:100%; height:100%"></div>
-<div id="coord_form" style="text-align:center; bottom:0px; posiion:fixed;">
+<div id="coord_form" style="text-align:center; bottom:0px; posiion:relative;">
   <form>
-    start lng: <input type="" >
-    start lat: <input type="" >
-    dest lng: <input type="" >
-    dest lat: <input type="" >
-    <input type="submit" value="Compute shortest path">
+    Source lat: <input type="text" id="srclat" name="srclat">
+    Source lng: <input type="text" id="srclng" name="srclng">
+    Dest lat: <input type="text" id="dstlat" name="dstlat">
+    Dest lng: <input type="text" id="dstlng" name="dstlng">
+    <button type="button" onclick="subc()">Your advert could be here</button>
+    <script type="text/javascript" charset="utf-8">
+function subc(){
+  var slat=document.getElementById("srclat").value;
+  var slng=document.getElementById("srclng").value;
+  var dlat=document.getElementById("dstlat").value;
+  var dlng=document.getElementById("dstlng").value;
+  alert("ok...");
+} 
+    </script>
   </form>
 </div> 
 </body>
