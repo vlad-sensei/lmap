@@ -116,6 +116,12 @@ G=GetG(R)
 
 from algoritm import *
 
-P, dist =shortestPath(G,345660400,283653684)
-print dist
-print P
+#P, dist =shortestPath(G,345660400,283653684)
+#print dist
+#print P
+
+def findId(lat, lng):
+  res=None;
+  dist=10000000
+  for node in N.nodes:
+    ds = sqrt((lat-node.lat)**2+(l))
