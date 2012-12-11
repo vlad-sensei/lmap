@@ -123,5 +123,9 @@ from algoritm import *
 def findId(lat, lng):
   res=None;
   dist=10000000
-  for node in N.nodes:
-    ds = sqrt((lat-node.lat)**2+(l))
+  for node in N.nodes.values():
+    ds = sqrt((lat-node.lat)**2+(lng-node.lng)**2)
+    if ds<dist:
+      dist=ds
+      res=node
+  return res.id

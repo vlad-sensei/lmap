@@ -22,7 +22,18 @@ function initialize() {
   map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
   google.maps.event.addListener(map, 'click', function(event) {
-    createMarker(event.latLng);
+    createMarker(map, event.latLng, "");
+    var slat=document.getElementById("srclat");
+    var slng=document.getElementById("srclng");
+    var dlat=document.getElementById("dstlat");
+    var dlng=document.getElementById("dstlng");
+    if (slat.value=="" || slng.value==""){
+      slat.value=event.latLng.lat();
+      slng.value=event.latLng.lng();
+    } else {
+      dlat.value=event.latLng.lat();
+      dlng.value=event.latLng.lng();
+    }
   });
   //displayMarkers(map);
   //displayRoads(map);

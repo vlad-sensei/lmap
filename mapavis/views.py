@@ -14,11 +14,30 @@ from django.template import Template, Context
 
 from nodes import *
 
+data=StoreNodes('mapavis/linkoping_map.osm')
+nodes = ClipNodes(data.nodes,58.3984,58.3990,15.5733,15.5760)
 
 def mapapp(request):
-  print request.POST
-  data=StoreNodes('mapavis/linkoping_map.osm')
-  nodes = ClipNodes(data.nodes,58.3984,58.3990,15.5733,15.5760)
+  #print request.POST
+  global nodes
+  global data
+  isPost=False
+  Path=[]
+  Dist=0
+  if request.method =="POST":
+    print request.POST
+    #if (u'dstlng' in request.POST) and (u'srclng' in )
+    if True:
+      # isPost=True
+      sNode=findId(float(request.POST['srclat']),float(request.POST['srclng']));
+      dNode=findId(float(request.POST['dstlat']),float(request.POST['dstlng']));
+      if sNode!=None and dNode!=None:
+        print sNode
+        print dNode
+        isPost=True
+        Path, Dist = shortestPath(G,sNode,dNode)
+        print Path
+
   c = Context({'AGMAPS_API_KEY': 'AIzaSyCRYOHyi6AtLspaRRPz7TqNuEXMs5NVHDk', 'COORDS': CN.nodes.values(), 'ROADS': R.roads.values(), 'CD': CN.nodes })
   c.update(csrf(request));
   #print c
