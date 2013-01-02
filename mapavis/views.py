@@ -18,7 +18,7 @@ data=StoreNodes('mapavis/linkoping_map.osm')
 nodes = ClipNodes(data.nodes,58.3984,58.3990,15.5733,15.5760)
 
 def mapapp(request):
-  #print request.POST
+ # print request.POST
   global nodes
   global data
   isPost=False
@@ -37,6 +37,7 @@ def mapapp(request):
         isPost=True
         Path, Dist = shortestPath(G,sNode,dNode)
         print Path
+        print Dist
 
   c = Context({'AGMAPS_API_KEY': 'AIzaSyCRYOHyi6AtLspaRRPz7TqNuEXMs5NVHDk', 'COORDS': CN.nodes.values(), 'ROADS': R.roads.values(), 'CD': CN.nodes })
   c.update(csrf(request));

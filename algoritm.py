@@ -50,8 +50,8 @@ def shortestPath(G,start,end):
   Path.reverse()
   return Path, D
 
-G = {123:[(321,10), (111,30)], 321:[(123,10), (111,10)], 111:[(123,30), (321,10)], 1000:[]}
-P = shortestPath(G,123,111)
-print P
-P = shortestPath(G,123,1000)
-print P
+#G = {123:[(321,10), (111,30)], 321:[(123,10), (111,10)], 111:[(123,30), (321,10)], 1000:[]}
+#P = shortestPath(G,123,111)
+#print P
+#P = shortestPath(G,123,1000)
+#print P
