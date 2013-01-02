@@ -12,6 +12,7 @@ src="https://maps.googleapis.com/maps/api/js?key={{ GMAPS_API_KEY }}&sensor=fals
 </script>
 <script type="text/javascript">
 var map;
+var markersArray= [];
 function initialize() {
   var myLatlng = new google.maps.LatLng(58.3985303,15.5745319);
   var mapOptions = {
@@ -22,22 +23,34 @@ function initialize() {
   map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
   google.maps.event.addListener(map, 'click', function(event) {
-    createMarker(map, event.latLng, "");
-    var slat=document.getElementById("srclat");
-    var slng=document.getElementById("srclng");
-    var dlat=document.getElementById("dstlat");
-    var dlng=document.getElementById("dstlng");
-    if (slat.value=="" || slng.value==""){
-      slat.value=event.latLng.lat();
-      slng.value=event.latLng.lng();
-    } else {
-      dlat.value=event.latLng.lat();
-      dlng.value=event.latLng.lng();
-    }
-  });
+   var marker = createMarker(map, event.latLng, "Click:" +event.lalLng);
+
+var slat=document.getElementById("srclat");
+var slng=document.getElementById("srclng");
+//alert(slat.value);
+if(markersArray.length == 0){
+slat.value = event.latLng.lat();
+slng.value = event.latLng.lng();
+markersArray.push(marker);
+//alert("Works!");
+} else {
+ var dlat=document.getElementById("dstlat");
+ var dlng=document.getElementById("dstlng");
+dlat.value = event.latLng.lat();
+dlng.value = event.latLng.lng();
+
+if(markersArray.length == 1){
+markersArray.push(marker);
+}else{
+markersArray[1].setMap(null);
+markersArray[1] = marker;
+}
+}
+ });
   //displayMarkers(map);
   //displayRoads(map);
 }
+
 
 function createMarker(map, location, title) {
   var marker = new google.maps.Marker({
@@ -45,7 +58,19 @@ function createMarker(map, location, title) {
     map: map,
     title: title
   });
+  //markersArray.push(marker);
+  return(marker);
 }
+
+function deleteOverlays(){
+ if (markersArray) {
+    for (i in markersArray) {
+      markersArray[i].setMap(null);
+    }
+    markersArray.length = 0;
+  }
+}
+
 function createPolyline(map, path) {
   var polyline = new google.maps.Polyline({
     path: path,
@@ -59,24 +84,23 @@ google.maps.event.addDomListener(window, 'load', initialize);
 </head>
 <body onload="initialize()">
 <div id="map_canvas" style="width:100%; height:100%"></div>
-<div id="coord_form"  style="text-align:center; bottom:0px; posiion:relative;">
-  <form action="." method="post">{% csrf_token %}
+<div id="coord_form" style="text-align:center; bottom:0px; posiion:relative;">
+  <form>
     Source lat: <input type="text" id="srclat" name="srclat">
     Source lng: <input type="text" id="srclng" name="srclng">
     Dest lat: <input type="text" id="dstlat" name="dstlat">
     Dest lng: <input type="text" id="dstlng" name="dstlng">
-    <input type="submit" value="Your advert could be here" />
-    <!--button type="button" onclick="subc()">Your advert could be here</button-->
-    <!--script type="text/javascript" charset="utf-8">
+    <button type="button" onclick="subc()">Your advert could be here</button>
+    <button type="button" onclick="deleteOverlays()">Clear</button>
+    <script type="text/javascript" charset="utf-8">
 function subc(){
   var slat=document.getElementById("srclat").value;
   var slng=document.getElementById("srclng").value;
   var dlat=document.getElementById("dstlat").value;
   var dlng=document.getElementById("dstlng").value;
-  var dist=
   alert("ok...");
 } 
-    </script-->
+    </script>
   </form>
 </div> 
 </body>
