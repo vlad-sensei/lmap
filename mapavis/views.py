@@ -32,20 +32,16 @@ def mapapp(request):
       sNode=findId(float(request.POST['srclat']),float(request.POST['srclng']));
       dNode=findId(float(request.POST['dstlat']),float(request.POST['dstlng']));
       if sNode!=None and dNode!=None:
-        print sNode
-        print dNode
+        #print sNode
+        #print dNode
         isPost=True
         Path, Dist = shortestPath(G,sNode,dNode)
-        print Path
-        print Dist
+        #print Dist
   DM=[]
   if Dist>0:
     for osmid in Path:
-      DM+=["points.push(new google.maps.LatLng("+ str(data.nodes[osmid].lat) +","+ str( str(data.nodes[osmid].lng))+ "));"]
-      print osmid
-      print data.nodes[osmid].lat
-      print data.nodes[osmid].lng
-  print DM
+      DM+=["points.push(new google.maps.LatLng("+ str(data.nodes[osmid].lat) +","+ str(data.nodes[osmid].lng)+ "));"]
+   # DM+=["CreateMarker(map, google.maps.LatLng("+ str(data.nodes[Path[0]].lat) +","+ str(data.nodes[Path[0]].lng)+'), start);']
 
   c = Context({'AGMAPS_API_KEY': 'AIzaSyCRYOHyi6AtLspaRRPz7TqNuEXMs5NVHDk', 'COORDS': CN.nodes.values(), 'ROADS': R.roads.values(), 'CD': data.nodes,\
       'DM':DM, 'DIST':Dist})
