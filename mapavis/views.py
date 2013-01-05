@@ -38,8 +38,17 @@ def mapapp(request):
         Path, Dist = shortestPath(G,sNode,dNode)
         print Path
         print Dist
+  DM=[]
+  if Dist>0:
+    for osmid in Path:
+      DM+=["points.push(new google.maps.LatLng("+ str(data.nodes[osmid].lat) +","+ str( str(data.nodes[osmid].lng))+ "));"]
+      print osmid
+      print data.nodes[osmid].lat
+      print data.nodes[osmid].lng
+  print DM
 
-  c = Context({'AGMAPS_API_KEY': 'AIzaSyCRYOHyi6AtLspaRRPz7TqNuEXMs5NVHDk', 'COORDS': CN.nodes.values(), 'ROADS': R.roads.values(), 'CD': CN.nodes })
+  c = Context({'AGMAPS_API_KEY': 'AIzaSyCRYOHyi6AtLspaRRPz7TqNuEXMs5NVHDk', 'COORDS': CN.nodes.values(), 'ROADS': R.roads.values(), 'CD': data.nodes,\
+      'DM':DM, 'DIST':Dist})
   c.update(csrf(request));
   #print c
   #print request.POST

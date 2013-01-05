@@ -49,6 +49,9 @@ markersArray[1] = marker;
  });
   //displayMarkers(map);
   //displayRoads(map);
+ {% if DIST > 0 %}
+   DisplayPath(map);
+ {% endif %}
 }
 
 
@@ -77,6 +80,16 @@ function createPolyline(map, path) {
     map: map
   });
 }
+
+{% if DIST > 0 %}
+function DisplayPath(map){
+  var points = new google.maps.MVCArray();
+  {% for line in DM%}
+    {{line}}
+  {%endfor%}
+  createPolyline(map, points);
+}
+{% endif %}
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
