@@ -38,13 +38,20 @@ def mapapp(request):
         Path, Dist = shortestPath(G,sNode,dNode)
         #print Dist
   DM=[]
+  EX=[]
+  SE=[]
   if Dist>0:
     for osmid in Path:
       DM+=["points.push(new google.maps.LatLng("+ str(data.nodes[osmid].lat) +","+ str(data.nodes[osmid].lng)+ "));"]
+    EX+=["Distance: "+str(int(Dist+1)) + "m"]
+    EX+=["Walk: "+str(int(Dist/100+1)) + "min"]
+    EX+=["Bike: "+str(int(Dist/500+1)) + "min"]
+    SE+=[str(data.nodes[Path[0]].lat) +","+ str(data.nodes[Path[0]].lng)]
+    SE+=[str(data.nodes[Path[len(Path)-1]].lat) +","+ str(data.nodes[Path[len(Path)-1]].lng)]
    # DM+=["CreateMarker(map, google.maps.LatLng("+ str(data.nodes[Path[0]].lat) +","+ str(data.nodes[Path[0]].lng)+'), start);']
 
   c = Context({'AGMAPS_API_KEY': 'AIzaSyCRYOHyi6AtLspaRRPz7TqNuEXMs5NVHDk', 'COORDS': CN.nodes.values(), 'ROADS': R.roads.values(), 'CD': data.nodes,\
-      'DM':DM, 'DIST':Dist})
+      'DM':DM, 'DIST':Dist, 'EX':EX, 'SE':SE})
   c.update(csrf(request));
   #print c
   #print request.POST
