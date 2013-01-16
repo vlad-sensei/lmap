@@ -18,25 +18,17 @@ data=StoreNodes('mapavis/linkoping_map.osm')
 nodes = ClipNodes(data.nodes,58.3984,58.3990,15.5733,15.5760)
 
 def mapapp(request):
- # print request.POST
   global nodes
   global data
   isPost=False
   Path=[]
   Dist=0
   if request.method =="POST":
-    print request.POST
-    #if (u'dstlng' in request.POST) and (u'srclng' in )
-    if True:
-      # isPost=True
       sNode=findId(float(request.POST['srclat']),float(request.POST['srclng']));
       dNode=findId(float(request.POST['dstlat']),float(request.POST['dstlng']));
       if sNode!=None and dNode!=None:
-        #print sNode
-        #print dNode
         isPost=True
         Path, Dist = shortestPath(G,sNode,dNode)
-        #print Dist
   DM=[]
   EX=[]
   SE=[]
@@ -48,12 +40,9 @@ def mapapp(request):
     EX+=["Bike: "+str(int(Dist/500+1)) + "min"]
     SE+=[str(data.nodes[Path[0]].lat) +","+ str(data.nodes[Path[0]].lng)]
     SE+=[str(data.nodes[Path[len(Path)-1]].lat) +","+ str(data.nodes[Path[len(Path)-1]].lng)]
-   # DM+=["CreateMarker(map, google.maps.LatLng("+ str(data.nodes[Path[0]].lat) +","+ str(data.nodes[Path[0]].lng)+'), start);']
 
   c = Context({'AGMAPS_API_KEY': 'AIzaSyCRYOHyi6AtLspaRRPz7TqNuEXMs5NVHDk', 'COORDS': CN.nodes.values(), 'ROADS': R.roads.values(), 'CD': data.nodes,\
       'DM':DM, 'DIST':Dist, 'EX':EX, 'SE':SE})
   c.update(csrf(request));
-  #print c
-  #print request.POST
   return render_to_response('mapavis/mapapp.html', c)
 

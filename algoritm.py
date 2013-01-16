@@ -1,25 +1,5 @@
 #!/usr/bin/env python
 
-# http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/117228
-#from priodict import priorityDictionary
-
-#def Dijkstraold(G,start, end=None):
-#  D = {}
-#  P = {}
-#  Q = priorityDictionary()
-#  Q[start] = 0
-#  for v in Q:
-#    D[v]=Q[v]
-#    if v==end : break
-#    for l in G[v]:
-#      newlen = D[v] + l[1]
-#      if not l[0] in Q or newlen < Q[l[0]]:
-#        Q[l[0]]=newlen
-#        P[l[0]]=v
-  #print D[end]
-  #print P
-#  return(D[end], P)
-
 import heapq
 
 def Dijkstra(G,start,end=None):
@@ -28,7 +8,6 @@ def Dijkstra(G,start,end=None):
   Q = []
   heapq.heappush(Q,(0,start))
   while len(Q)>0:
-#    print D
     l,v=heapq.heappop(Q)
     if v in D: continue
     D[v]=l
@@ -49,9 +28,3 @@ def shortestPath(G,start,end):
     end = P[end]
   Path.reverse()
   return Path, D
-
-#G = {123:[(321,10), (111,30)], 321:[(123,10), (111,10)], 111:[(123,30), (321,10)], 1000:[]}
-#P = shortestPath(G,123,111)
-#print P
-#P = shortestPath(G,123,1000)
-#print P

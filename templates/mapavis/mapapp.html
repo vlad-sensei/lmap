@@ -27,12 +27,10 @@ function initialize() {
 
 var slat=document.getElementById("srclat");
 var slng=document.getElementById("srclng");
-//alert(slat.value);
 if(markersArray.length == 0){
 slat.value = event.latLng.lat();
 slng.value = event.latLng.lng();
 markersArray.push(marker);
-//alert("Works!");
 } else {
  var dlat=document.getElementById("dstlat");
  var dlng=document.getElementById("dstlng");
@@ -47,8 +45,6 @@ markersArray[1] = marker;
 }
 }
  });
-  //displayMarkers(map);
-  //displayRoads(map);
  {% if DIST > 0 %}
    DisplayPath(map);
  {% endif %}
@@ -61,7 +57,6 @@ function createMarker(map, location, title) {
     map: map,
     title: title
   });
-  //markersArray.push(marker);
   return(marker);
 }
 
