@@ -1,1 +1,1 @@
-Klar t.o.m 4.3.a
+Klar, grafen verkar dock inte vara sammansatt
